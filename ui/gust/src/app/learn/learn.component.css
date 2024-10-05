@@ -1,0 +1,45 @@
+.about-section {
+  scroll-snap-align: start;
+  height: 100vh;
+  padding: 2rem;
+
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.the-core {
+  position: absolute;
+  width: 30%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.top-right, .bottom-right, .top-left, .bottom-left {
+  position: absolute;
+  text-align: center;
+  width: 20%;
+}
+
+.top-right {
+  top: 15%;
+  right: 7%;
+}
+
+.bottom-right {
+  bottom: 25%;
+  right: 7%;
+}
+
+.top-left {
+  top: 15%;
+  left: 7%;
+}
+
+.bottom-left {
+  bottom: 25%;
+  left: 7%;
+}

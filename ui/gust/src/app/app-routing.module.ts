@@ -13,7 +13,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path:"about",
+    path:"learn",
     component: LearnComponent
   },
   {

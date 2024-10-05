@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+*{
+  background-color: #FCF5E5;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 500;
+
+}
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  letter-spacing: .063rem;
+  padding: 2rem;
+
+}
+
+.app-logo {
+  font-weight: 700;
+  font-style: normal;
+  font-size: 2.5rem;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  /* padding: 1rem; */
+
+}
+main {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+/* .container {
+  scroll-padding-top: 1rem;
+  scroll-padding-bottom: 1rem;
+} */
