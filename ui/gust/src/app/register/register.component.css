@@ -1,6 +1,6 @@
 .register-section {
   scroll-snap-align: start;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 2rem;
 
   display: flex;
