@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AceModule } from 'ngx-ace-wrapper';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,7 @@ import { NetworkComponent } from './network/network.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthComponent } from './services/auth/auth.component';
 import { ChainComponent } from './services/chain/chain.component';
+import { TerminalComponent } from './terminal/terminal.component';
 
 @NgModule({
   declarations: [
@@ -22,11 +24,13 @@ import { ChainComponent } from './services/chain/chain.component';
     NetworkComponent,
     RegisterComponent,
     AuthComponent,
-    ChainComponent
+    ChainComponent,
+    TerminalComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AceModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,47 @@
-<p>developer works!</p>
+<section id="developer" class="developer-section">
+  <div class="page-title">BuildON Gust;</div>
+  <div class="page-content">
+    <div class="vertical-tab">
+      <button *ngFor="let tab of tabs; let i = index" (click)="selectTab(i)">
+        {{ tab.title }}
+      </button>
+    </div>
+
+    <div class="content">
+      <ng-container *ngIf="selectedTab === 0">
+        {{ tabs[0].content }}
+      </ng-container>
+      <ng-container *ngIf="selectedTab === 1">
+        {{ tabs[1].content }}
+      </ng-container>
+      <ng-container *ngIf="selectedTab === 2">
+        <app-terminal></app-terminal> <!-- Dynamically display your terminal here -->
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- <div class="page-content">
+    <div class="vertical-tab" *ngFor="let tab of tabs; let i = index">
+      <button>
+        Gustavo Smart Contracts
+      </button>
+      <button>
+        Deploy your first Contract
+      </button>
+      <button>
+        Interact with Your Contract
+      </button>
+    </div>
+    <div class="content">
+      <div class="">
+
+      </div>
+      <div class="">
+
+      </div>
+      <div class="">
+
+      </div>
+    </div>
+  </div> -->
+</section>
