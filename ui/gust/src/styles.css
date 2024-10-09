@@ -40,7 +40,8 @@ main {
 .landing-section,
 .about-section,
 .network-section,
-.register-section {
+.register-section,
+.login-section {
   min-height: 100vh;
   width: 100%;
 }

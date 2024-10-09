@@ -1,13 +1,39 @@
 <section id="registration" class="register-section">
-  <form action="/register" method="post">
-    <div class="form-title">Register</div>
-    <label for="emailOrNumber">
-      Email / Whatsapp Number
-    </label>
-    <input type="text" id="emailOrNumber" name="email-number" required>
-    <label for="otp">
-      OTP
-    </label>
-    <input type="text" id="otp" name="gen-otp" required>
+  <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+    <div *ngIf="currentStep === 1">
+      <div class="form-title">Register</div>
+      <label for="emailOrNumber">Email / Whatsapp Number</label>
+      <input
+      type="text"
+      id="emailOrNumber"
+      name="emailOrNumber"
+      [(ngModel)]="formData.emailOrNumber"
+      required
+    />
+    <button type="button" (click)="nextStep()" [disabled]="!registerForm.form.controls['emailOrNumber']?.valid">
+      Next
+    </button>
+    </div>
+    <div *ngIf="currentStep === 2">
+      <div class="form-title">Register</div>
+      <label for="otp">OTP</label>
+      <input
+        type="text"
+        id="otp"
+        name="otp"
+        [(ngModel)]="formData.otp"
+        required
+      />
+      <button type="button" (click)="prevStep()">Previous</button>
+      <button type="submit" [disabled]="!registerForm.form.controls['otp']?.valid">Submit</button>
+    </div>
   </form>
+  <div class="existingUser">
+    <span>Already have an Account?</span>
+    <a href="/login">Login</a>
+  </div>
+  <div style="text-align:center;margin-top:40px;">
+    <span class="step"></span>
+    <span class="step"></span>
+  </div>
 </section>

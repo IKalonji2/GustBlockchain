@@ -6,6 +6,7 @@ import { LearnComponent } from './learn/learn.component';
 import { DeveloperComponent } from './developer/developer.component';
 import { NetworkComponent } from './network/network.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: "register",
     component: RegisterComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
   }
 ];
 

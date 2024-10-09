@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AceModule } from 'ngx-ace-wrapper';
+import {HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +15,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthComponent } from './services/auth/auth.component';
 import { ChainComponent } from './services/chain/chain.component';
 import { TerminalComponent } from './terminal/terminal.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +28,15 @@ import { TerminalComponent } from './terminal/terminal.component';
     RegisterComponent,
     AuthComponent,
     ChainComponent,
-    TerminalComponent
+    TerminalComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AceModule
+    AceModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

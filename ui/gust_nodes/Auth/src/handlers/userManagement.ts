@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import { sendOtpEmail } from "../services/mail_service";
-import { sendOtpWhatsApp } from "../services/whatsapp_service";
+import { createWhatsAppClient, sendOtpWhatsApp } from '../services/whatsapp_service';
 import { generateOtp, verifyOtp } from "../services/otp_service";
 
 import jwt from 'jsonwebtoken';
 import venom from 'venom-bot';
 
 const users: Record<string, string> = {}; // Locally stored OTPs
+createWhatsAppClient().catch(console.error);
 
 export const userSignUp = async (req: Request, res: Response): Promise<void> => {
     const { email, phoneNumber } = req.body;
