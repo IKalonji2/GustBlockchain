@@ -8,38 +8,59 @@ import { NgForm } from '@angular/forms';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit{
+
+export class RegisterComponent implements OnInit {
   currentStep: number = 1;
-  formData:UserFormObject = {
-    emailOrNumber: '',
-    otp: ''
-  };
+  emailOrPhoneNumber: string = '';
+  otp: string = '';
+  isEmail: boolean = true;
 
-  constructor(
-    private authService: AuthService
-  ) {}
-  ngOnInit(): void {
+  constructor(private authService: AuthService) {}
 
-  }
-  nextStep() {
-    this.currentStep++;
+  ngOnInit(): void {}
+
+  nextStep(registerForm: NgForm) {
+    if (registerForm.valid) {
+      const payload = this.isEmail
+        ? { email: this.emailOrPhoneNumber }
+        : { phoneNumber: this.emailOrPhoneNumber };
+
+      this.authService.CreateUser(payload).subscribe(
+        (response) => {
+          console.log('OTP sent successfully:', response);
+          this.currentStep++;
+        },
+        (error) => {
+          console.error('Failed to send OTP:', error);
+        }
+      );
+    }
   }
 
   prevStep() {
     this.currentStep--;
   }
+
   onSubmit(registerForm: NgForm) {
     if (registerForm.valid) {
-      console.log(this.formData);
-    this.authService.CreateUser(this.formData).subscribe(
-      (response) => {
-        console.log('Registration successful:', response);
-      },
-      (error) => {
-        console.error('Registration failed:', error);
-      }
-    );
+      const payload = {
+        otp: this.otp,
+        ...(this.isEmail ? { email: this.emailOrPhoneNumber } : { phoneNumber: this.emailOrPhoneNumber })
+      };
+
+      this.authService.ProcessOpt(payload).subscribe(
+        (response) => {
+          console.log('OTP verification successful:', response);
+        },
+        (error) => {
+          console.error('OTP verification failed:', error);
+        }
+      );
+    }
   }
-}
+
+  setActiveTab(tabNumber: number): void {
+    this.currentStep = tabNumber;
+  }
 
 }

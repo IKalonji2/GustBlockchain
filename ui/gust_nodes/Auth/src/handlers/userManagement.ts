@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import { sendOtpEmail } from "../services/mail_service";
 import { createWhatsAppClient, sendOtpWhatsApp } from '../services/whatsapp_service';
-import { generateOtp, verifyOtp } from "../services/otp_service";
+import { generateOtp } from "../services/otp_service";
 
 import jwt from 'jsonwebtoken';
-import venom from 'venom-bot';
 
 const users: Record<string, string> = {}; // Locally stored OTPs
 createWhatsAppClient().catch(console.error);
@@ -100,3 +99,19 @@ export const protectedRoute = async (req: Request, res: Response) => {
         res.status(401).json({ message: 'Invalid token' });
     }
 };
+export const otpVerifier = async (req: Request, res: Response): Promise<void> => {
+    const { email, phoneNumber, otp } = req.body;
+  
+    if (!otp || (!email && !phoneNumber)) {
+      res.status(400).json({ message: 'OTP, and either email or phone number, is required.' });
+    }
+  
+    const storedOtp = email ? users[email] : users[phoneNumber];
+  
+    if (!storedOtp || storedOtp !== otp) {
+      res.status(400).json({ message: 'Invalid OTP.' });
+    }
+  
+    res.json({ message: 'OTP verification successful.' });
+  };
+  

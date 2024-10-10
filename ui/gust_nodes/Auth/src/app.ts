@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import helmet from 'helmet';
 
 import userAuth from './routes/auth';
@@ -11,6 +12,11 @@ const app = express();
 
 app.use(express.json());
 app.use(helmet());
+app.use(cors({
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+  }));
 app.use('/api',userAuth);
 
 app.listen(3000, () => {
