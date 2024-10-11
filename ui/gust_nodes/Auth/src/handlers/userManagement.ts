@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response , NextFunction } from "express";
 import { sendOtpEmail } from "../services/mail_service";
 import { createWhatsAppClient, sendOtpWhatsApp } from '../services/whatsapp_service';
 import { generateOtp } from "../services/otp_service";
@@ -82,23 +82,6 @@ export const userSignIn = async (req: Request, res: Response): Promise<void>  =>
     }
 };
 
-
-export const protectedRoute = async (req: Request, res: Response) => {
-    const authHeader = req.headers['authorization'];
-
-    if (!authHeader) {
-        res.status(401).json({ message: 'Missing token' });
-    }
-
-    const token = authHeader && authHeader.split(' ')[1];
-
-    try {
-        const decoded = jwt.verify(token!, process.env.JWT_SECRET as string);
-         res.json({ message: 'Access granted!', user: decoded });
-    } catch (err) {
-        res.status(401).json({ message: 'Invalid token' });
-    }
-};
 export const otpVerifier = async (req: Request, res: Response): Promise<void> => {
     const { email, phoneNumber, otp } = req.body;
   
@@ -115,3 +98,32 @@ export const otpVerifier = async (req: Request, res: Response): Promise<void> =>
     res.json({ message: 'OTP verification successful.' });
   };
   
+  export const generateJWT = (req:Request, res:Response) => {
+    const { email, phoneNumber } = req.body;
+    if(email) {
+        const token = jwt.sign(
+            users[email],
+            process.env.JWT_SECRET!,
+            { expiresIn: '1h' }
+        );
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+            maxAge: 3600000
+        });
+    }
+    else if(phoneNumber) {
+        const token = jwt.sign(
+            users[phoneNumber],
+            process.env.JWT_SECRET!,
+            { expiresIn: '1h' }
+        );
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+            maxAge: 3600000
+        });
+    }
+  };
