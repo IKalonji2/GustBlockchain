@@ -22,7 +22,8 @@
     "nodemailer": "^6.9.15",
     "random": "^5.1.1",
     "speakeasy": "^2.0.0",
-    "venom-bot": "^5.1.0"
+    "venom-bot": "^5.1.0",
+    "helmet": "^8.0.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

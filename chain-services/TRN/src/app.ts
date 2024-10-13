@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 // import helmet from 'helmet';
 
-// import userAuth from './routes/auth';
+import relayer from './routes/router'
 
 
 dotenv.config();
@@ -17,7 +17,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }));
-// app.use('/api',userAuth);
+app.use('/api',relayer);
 
 app.listen(3001, () => {
     console.log('Auth server running on http://localhost:3001');

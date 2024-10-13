@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+  "compilerOptions": {
       "target": "es6",                         
       "module": "commonjs",    
       "outDir": "./dist",
@@ -8,8 +8,10 @@
       "esModuleInterop": true,                 
       "skipLibCheck": true,                    
       "forceConsistentCasingInFileNames": true,
-      "allowSyntheticDefaultImports": true
-    },
-    "include": ["src/**/*"],                  
-    "exclude": ["node_modules", "**/*.spec.ts"] 
-  }
+      "allowSyntheticDefaultImports": true,
+      "typeRoots": ["./node_modules/@types", "./types"]
+
+  },
+  "include": ["src/**/*"],                  
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
