@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { relayTransaction } from "../services/deploySmartContractRelayer";
+import { relayTransaction } from "../handlers/deploySmartContractRelayer";
+import { topUpWalletRelay } from "../handlers/loadWallet";
 
 const router = Router();
 
 // router.post('/verifyToken', authenticateJWT);
-// router.get('/connect', connectToChain);
+router.get('/load-wallet', topUpWalletRelay);
 router.post('/relay', relayTransaction);
 
 export default router;

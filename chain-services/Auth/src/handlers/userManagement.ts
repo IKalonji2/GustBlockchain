@@ -154,9 +154,9 @@ export const verifyMnemonic = async (req: Request, res: Response): Promise<void>
 };
 
 export const getWallet = (req: Request, res: Response): void => {
-    const wallet = localStorage.getItem('Wallet Address');
-    if(wallet) {
-        res.json({ "Wallet Address": wallet });
+    const walletAddress = req.body;
+    if(walletAddress) {
+        res.json({ "Wallet Address": localStorage.getItem('Wallet Address')});
     }
 };
   
