@@ -1,6 +1,6 @@
 <section id="registration" class="register-section">
   <div class="form-card">
-    <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
       <div *ngIf="currentStep === 1">
         <div class="form-title">Register</div>
 
@@ -38,7 +38,7 @@
       </div>
 
       <div *ngIf="currentStep === 2">
-        <div class="form-title">Register</div>
+        <div class="form-subtitle">Verify OTP</div>
         <label for="otp">Verify OTP</label>
         <input
           type="text"
@@ -49,16 +49,47 @@
         />
 
         <button type="button" (click)="prevStep()">Previous</button>
-        <button type="submit" [disabled]="!registerForm.form.valid">Submit</button>
+        <button type="button" (click)="nextStep(registerForm)" [disabled]="!registerForm.form.valid">Next</button>
+      </div>
+
+      <div *ngIf="currentStep === 3">
+        <div class="form-subtitle">Mnemonic</div>
+        <p>Please make sure that the following mnemonic stored securely:</p>
+        <div class="mnemonic-display">
+          <span *ngFor="let word of mnemonic; let indx = index">{{ indx + 1 }}: {{ word }}</span>
+        </div>
+        <button type="button" (click)="prevStep()">Previous</button>
+        <button type="button" (click)="nextStep(registerForm)" [disabled]="!registerForm.form.valid">Next</button>
+      </div>
+
+      <div *ngIf="currentStep === 4">
+        <div class="form-subtitle">Rearrange Mnemonic</div>
+        <p>Arrange the mnemonic in the correct order:</p>
+        <div class="mnemonic-selected">
+          <span *ngFor="let word of userSelectedMnemonic">{{ word }} </span>
+        </div>
+        <div class="reset_icon">
+          <button (click)="resetArrangement()"><img src="../../assets/reset.svg" alt="reset"></button>
+        </div>
+        <div class="mnemonic-shuffle">
+          <button *ngFor="let word of shuffledMnemonic" (click)="selectWord(word)">
+            {{ word }}
+          </button>
+        </div>
+        <button type="button" (click)="prevStep()">Previous</button>
+        <button type="submit" [disabled]="userSelectedMnemonic.length !== mnemonic.length">Submit</button>
       </div>
     </form>
-      <div class="existingUser">
-        <span>Already have an Account?</span>
-        <a href="/login">Login</a>
-      </div>
-      <div style="text-align:center;margin-top:40px;">
-        <span class="step" (click)="setActiveTab(1)" [ngClass]="{'active': currentStep === 1}"></span>
-        <span class="step" (click)="setActiveTab(2)" [ngClass]="{'active': currentStep === 2}"></span>
-      </div>
+
+    <div class="existingUser">
+      <span>Already have an Account?</span>
+      <a href="/login">Login</a>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+      <span class="step" (click)="setActiveTab(1)" [ngClass]="{'active': currentStep === 1}"></span>
+      <span class="step" (click)="setActiveTab(2)" [ngClass]="{'active': currentStep === 2}"></span>
+      <span class="step" (click)="setActiveTab(3)" [ngClass]="{'active': currentStep === 3}"></span>
+      <span class="step" (click)="setActiveTab(4)" [ngClass]="{'active': currentStep === 4}"></span>
+    </div>
   </div>
 </section>

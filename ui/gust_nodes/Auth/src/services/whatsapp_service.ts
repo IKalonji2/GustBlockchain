@@ -19,7 +19,7 @@ export const sendOtpWhatsApp = async (phoneNumber: string, otp: string) => {
         throw new Error('No WhatsApp client available to send OTP.');
     }
 
-    const formattedPhoneNumber = `${phoneNumber.replace('+', '')}@c.us`;
+    const formattedPhoneNumber = `${phoneNumber.replace('0', '27')}@c.us`;
 
     try {
         await whatsappClient.sendText(formattedPhoneNumber, `Your OTP code is: ${otp}`);

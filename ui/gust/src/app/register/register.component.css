@@ -14,6 +14,7 @@
   border: 5px solid black;
   border-radius: 15px;
   width: 21.875rem;
+  height: 25rem;
   padding: 2.5%;
   box-shadow: 10px 10px #ccc;
 }
@@ -91,4 +92,19 @@
 }
 .register-section button{
   margin-top: 5px ;
+}
+.form-subtitle {
+  font-size: 2.5rem;
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 1.25rem ;
+  text-decoration: underline;
+}
+
+.reset_icon img{
+  width:15px;
+  height: 15px;
+}
+.mnemonic-display span {
+  padding: 10px;
 }

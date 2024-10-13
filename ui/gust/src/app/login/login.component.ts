@@ -23,7 +23,7 @@ export class LoginComponent {
         ? { email: this.emailOrPhoneNumber }
         : { phoneNumber: this.emailOrPhoneNumber };
 
-      this.authService.UserLogin(payload).subscribe(
+      this.authService.userLogin(payload).subscribe(
         (response) => {
           console.log('OTP sent successfully:', response);
           this.currentStep++;
@@ -46,7 +46,7 @@ export class LoginComponent {
         ...(this.isEmail ? { email: this.emailOrPhoneNumber } : { phoneNumber: this.emailOrPhoneNumber })
       };
 
-      this.authService.ProcessOpt(payload).subscribe(
+      this.authService.processOpt(payload).subscribe(
         (response) => {
           console.log('OTP verification successful:', response);
         },
