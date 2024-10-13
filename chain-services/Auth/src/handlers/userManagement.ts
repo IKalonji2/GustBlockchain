@@ -154,8 +154,10 @@ export const verifyMnemonic = async (req: Request, res: Response): Promise<void>
 };
 
 export const getWallet = (req: Request, res: Response): void => {
-    const wallet = localStorage.getItem('Wallet Address'); 
-    res.json({ "Wallet Address": wallet });
+    const wallet = localStorage.getItem('Wallet Address');
+    if(wallet) {
+        res.json({ "Wallet Address": wallet });
+    }
 };
   
 // export const generateJWT = (email:string, phoneNumber:string) => {
