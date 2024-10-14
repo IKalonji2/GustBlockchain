@@ -14,8 +14,9 @@ import { NetworkComponent } from './network/network.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthComponent } from './services/auth/auth.component';
 import { ChainComponent } from './services/chain/chain.component';
-import { TerminalComponent } from './terminal/terminal.component';
 import { LoginComponent } from './login/login.component';
+import { EditorComponent } from './editor/editor.component';
+import { DocsDisplayComponent } from './docs-display/docs-display.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { LoginComponent } from './login/login.component';
     RegisterComponent,
     AuthComponent,
     ChainComponent,
-    TerminalComponent,
-    LoginComponent
+    LoginComponent,
+    EditorComponent,
+    DocsDisplayComponent
   ],
   imports: [
     BrowserModule,

@@ -9,13 +9,13 @@
 
     <div class="content">
       <ng-container *ngIf="selectedTab === 0">
-        {{ tabs[0].content }}
+        <app-docs-display></app-docs-display>
       </ng-container>
       <ng-container *ngIf="selectedTab === 1">
         {{ tabs[1].content }}
       </ng-container>
       <ng-container *ngIf="selectedTab === 2">
-        <app-terminal></app-terminal> <!-- Dynamically display your terminal here -->
+        <app-editor></app-editor>
       </ng-container>
     </div>
   </div>

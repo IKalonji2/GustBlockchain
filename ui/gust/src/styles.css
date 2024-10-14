@@ -13,6 +13,7 @@ body{
   letter-spacing: .063rem;
   padding: 2rem;
   background-color: #fffdf8;
+  min-height: 100vh;
 
 }
 
@@ -41,6 +42,7 @@ main {
 .about-section,
 .network-section,
 .register-section,
+/* .developer-section, */
 .login-section {
   min-height: 100vh;
   width: 100%;

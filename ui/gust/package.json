@@ -20,6 +20,7 @@
     "@angular/router": "^16.2.0",
     "ace-builds": "^1.36.2",
     "cors": "^2.8.5",
+    "marked": "^14.1.2",
     "ngx-ace-wrapper": "^17.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
