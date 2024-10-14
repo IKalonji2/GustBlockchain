@@ -1,7 +1,7 @@
 .register-section {
-  scroll-snap-align: start;
+  /* scroll-snap-align: start; */
   /* height: 100vh; */
-  padding: 2rem;
+  /* padding: 2rem; */
 
   display: flex;
   flex-direction: column;
@@ -108,3 +108,12 @@
 .mnemonic-display span {
   padding: 10px;
 }
+button {
+  border-radius: 25px;
+  color:#fffdf8;
+  background-color: black;
+  padding: 15px;
+  width: 100px;
+}
+/*
+.disable button {} */
