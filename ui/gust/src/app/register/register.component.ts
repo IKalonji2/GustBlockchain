@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 export class RegisterComponent implements OnInit {
   currentStep: number = 1;
-  emailOrPhoneNumber: string = '';
+  emailOrphone_number: string = '';
   otp: string = '';
   isEmail: boolean = true;
 
@@ -31,8 +31,8 @@ export class RegisterComponent implements OnInit {
     if (registerForm.valid) {
       if (this.currentStep === 1) {
         const payload = this.isEmail
-          ? { email: this.emailOrPhoneNumber }
-          : { phoneNumber: this.emailOrPhoneNumber };
+          ? { email: this.emailOrphone_number }
+          : { phone_number: this.emailOrphone_number };
 
         this.authService.createUser(payload).subscribe(
           (response) => {
@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
       } else if (this.currentStep === 2) {
         const payload = {
           otp: this.otp,
-          ...(this.isEmail ? { email: this.emailOrPhoneNumber } : { phoneNumber: this.emailOrPhoneNumber })
+          ...(this.isEmail ? { email: this.emailOrphone_number } : { phone_number: this.emailOrphone_number })
         };
         this.authService.processOpt(payload).subscribe(
           (response) => {

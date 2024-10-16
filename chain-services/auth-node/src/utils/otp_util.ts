@@ -1,4 +1,8 @@
 import speakeasy from 'speakeasy';
+import dotenv from 'dotenv';
+
+
+dotenv.config();
 
 export const generateOtp = () => {
     return speakeasy.totp({

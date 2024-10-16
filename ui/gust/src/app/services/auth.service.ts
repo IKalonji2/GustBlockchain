@@ -12,31 +12,15 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
   createUser(formBody: object) {
-    let route: string = "/api/signUp";
+    let route: string = "/api/signup";
     return this.http.post(this.URL+route,formBody);
   }
   processOpt(formBody: object) {
-    let route: string = "/api/verifyOtp";
+    let route: string = "/api/verify-otp";
     return this.http.post(this.URL+route,formBody);
   }
   userLogin(formBody: object) {
     let route: string = "/api/login";
     return this.http.post(this.URL+route,formBody);
-  }
-  getWalletMnemonic() {
-    let route: string = "/api/sendMnemonic";
-    return this.http.get(this.URL+route);
-  }
-  getShuffledMnemonic() {
-    let route: string = "/api/shuffledMnemonic";
-    return this.http.get(this.URL+route);
-  }
-  getWallet() {
-    let route: string = "/api/getWallet";
-    return this.http.get(this.URL+route);
-  }
-  verifyMnemonic(postBody:object) {
-    let route: string = "/api/verifyMnemonic";
-    return this.http.post(this.URL+route,postBody);
   }
 }

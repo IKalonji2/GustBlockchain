@@ -1,5 +1,5 @@
 export interface UserFormObject {
   email:string,
-  phoneNumber:string
+  phone_number:string
   otp: string;
 }

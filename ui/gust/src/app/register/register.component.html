@@ -3,7 +3,7 @@
     <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
       <div *ngIf="currentStep === 1">
         <div class="form-title">Register</div>
-
+<!--
         <div class="check">
           <label>
             <input type="checkbox" [(ngModel)]="isEmail" name="isEmail" />
@@ -17,21 +17,29 @@
             type="email"
             id="email"
             name="email"
-            [(ngModel)]="emailOrPhoneNumber"
+            [(ngModel)]="emailOrphone_number"
             required
           />
         </div>
         <div *ngIf="!isEmail">
-          <label for="phoneNumber">Phone Number</label>
+          <label for="phone_number">Phone Number</label>
           <input
             type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            [(ngModel)]="emailOrPhoneNumber"
+            id="phone_number"
+            name="phone_number"
+            [(ngModel)]="emailOrphone_number"
             required
           />
-        </div>
+        </div> -->
 
+        <label for="phone_number">WhatsApp Number</label>
+          <input
+            type="text"
+            id="phone_number"
+            name="phone_number"
+            [(ngModel)]="emailOrphone_number"
+            required
+          />
         <button type="button" (click)="nextStep(registerForm)" [disabled]="!registerForm.form.valid">
           Next
         </button>
@@ -39,7 +47,7 @@
 
       <div *ngIf="currentStep === 2">
         <div class="form-subtitle">Verify OTP</div>
-        <label for="otp">Verify OTP</label>
+        <label for="otp">Enter your OTP</label>
         <input
           type="text"
           id="otp"
@@ -49,10 +57,11 @@
         />
 
         <button type="button" (click)="prevStep()">Previous</button>
-        <button type="button" (click)="nextStep(registerForm)" [disabled]="!registerForm.form.valid">Next</button>
+        <!-- <button type="button" (click)="nextStep(registerForm)" [disabled]="!registerForm.form.valid">Next</button> -->
+        <button type="submit" [disabled]="!registerForm.form.valid">Submit</button>
       </div>
 
-      <div *ngIf="currentStep === 3">
+      <!-- <div *ngIf="currentStep === 3">
         <div class="form-subtitle">Mnemonic</div>
         <p>Please make sure that the following mnemonic stored securely:</p>
         <div class="mnemonic-display">
@@ -60,9 +69,9 @@
         </div>
         <button type="button" (click)="prevStep()">Previous</button>
         <button type="button" (click)="nextStep(registerForm)" [disabled]="!registerForm.form.valid">Next</button>
-      </div>
+      </div> -->
 
-      <div *ngIf="currentStep === 4">
+      <!-- <div *ngIf="currentStep === 4">
         <div class="form-subtitle">Rearrange Mnemonic</div>
         <p>Arrange the mnemonic in the correct order:</p>
         <div class="mnemonic-selected">
@@ -78,7 +87,7 @@
         </div>
         <button type="button" (click)="prevStep()">Previous</button>
         <button type="submit" [disabled]="userSelectedMnemonic.length !== mnemonic.length">Submit</button>
-      </div>
+      </div> -->
     </form>
 
     <div class="existingUser">
@@ -88,8 +97,8 @@
     <div style="text-align:center;margin-top:40px;">
       <span class="step" (click)="setActiveTab(1)" [ngClass]="{'active': currentStep === 1}"></span>
       <span class="step" (click)="setActiveTab(2)" [ngClass]="{'active': currentStep === 2}"></span>
-      <span class="step" (click)="setActiveTab(3)" [ngClass]="{'active': currentStep === 3}"></span>
-      <span class="step" (click)="setActiveTab(4)" [ngClass]="{'active': currentStep === 4}"></span>
+      <!-- <span class="step" (click)="setActiveTab(3)" [ngClass]="{'active': currentStep === 3}"></span>
+      <span class="step" (click)="setActiveTab(4)" [ngClass]="{'active': currentStep === 4}"></span> -->
     </div>
   </div>
 </section>

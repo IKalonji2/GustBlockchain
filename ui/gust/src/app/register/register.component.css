@@ -43,7 +43,7 @@
   font-size: large;
   width: 100%;
 }
-#email, #phoneNumber {
+#email, #phone_number {
   padding: 0.625rem;
   margin-bottom: 0.625rem;
   font-size: large;
