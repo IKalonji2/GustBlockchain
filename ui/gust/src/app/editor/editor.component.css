@@ -1,5 +1,21 @@
-div {
+.ide {
   height: 18.75rem;
-  width: 100%;
-  min-width: 50rem;
+  /* min-width: 100%; */
+  min-width: 80rem;
+}
+.ide-out {
+  border: solid 1px #ccc;
+  background-color: #141414;
+  color: white;
+  height: 18.75rem;
+  /* min-width: 100%; */
+  min-width: 80rem;
+
+}
+button {
+  border-radius: 25px;
+  color:#fffdf8;
+  background-color: black;
+  padding: 15px;
+  width: 100px;
 }

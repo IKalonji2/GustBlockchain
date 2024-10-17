@@ -1,8 +1,8 @@
-<div #editor>
+<div #editor class="ide">
   {{code}}
 </div>
-<button (click)="runCode()" style="margin-top: 10px;">Run Code</button>
-<div>
+<button (click)="runCode()" style="margin-top: 10px; margin-bottom: 10px;">Run Code</button>
+<div class="ide-out">
   <h3>Output:</h3>
   <pre>{{ output }}</pre>
 </div>
