@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent {
   currentStep: number = 1;
-  emailOrphone_number: string = '';
+  phone_number: string = '';
   otp: string = '';
   isEmail: boolean = true;
 
@@ -19,9 +19,10 @@ export class LoginComponent {
 
   nextStep(loginForm: NgForm) {
     if (loginForm.valid) {
-      const payload = this.isEmail
-        ? { email: this.emailOrphone_number }
-        : { phone_number: this.emailOrphone_number };
+      // const payload = this.isEmail
+      //   ? { email: this.emailOrphone_number }
+      //   : { phone_number: this.emailOrphone_number };
+      const payload = {phone_number:this.phone_number}
 
       this.authService.userLogin(payload).subscribe(
         (response) => {
@@ -41,10 +42,11 @@ export class LoginComponent {
 
   onSubmit(loginForm: NgForm) {
     if (loginForm.valid) {
-      const payload = {
-        otp: this.otp,
-        ...(this.isEmail ? { email: this.emailOrphone_number } : { phone_number: this.emailOrphone_number })
-      };
+      // const payload = {
+      //   otp: this.otp,
+      //   ...(this.isEmail ? { email: this.emailOrphone_number } : { phone_number: this.emailOrphone_number })
+      // };
+      const payload = {phone_number:this.phone_number}
 
       this.authService.processOpt(payload).subscribe(
         (response) => {

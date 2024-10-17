@@ -1,24 +1,27 @@
 <section id="developer" class="developer-section">
-  <div class="page-title">BuildON Gust;</div>
-  <div class="page-content">
+  <nav class="side-nav">
+    <ul *ngFor="let tab of tabs;  let i = index" (click)="selectTab(i)">
+      <li>{{ tab.title }}</li>
+    </ul>
+  </nav>
+  <div class="content">
+    <div class="page-title">BuildON Gust;</div>
+    <ng-container *ngIf="selectedTab === 0">
+      <app-docs-display></app-docs-display>
+    </ng-container>
+    <ng-container *ngIf="selectedTab === 1">
+      {{ tabs[1].content }}
+    </ng-container>
+    <ng-container *ngIf="selectedTab === 2">
+      <app-editor></app-editor>
+    </ng-container>
+  </div>
+  <!-- <div class="page-content">
     <div class="vertical-tab">
       <button *ngFor="let tab of tabs; let i = index" (click)="selectTab(i)">
         {{ tab.title }}
       </button>
-    </div>
-
-    <div class="content">
-      <ng-container *ngIf="selectedTab === 0">
-        <app-docs-display></app-docs-display>
-      </ng-container>
-      <ng-container *ngIf="selectedTab === 1">
-        {{ tabs[1].content }}
-      </ng-container>
-      <ng-container *ngIf="selectedTab === 2">
-        <app-editor></app-editor>
-      </ng-container>
-    </div>
-  </div>
+    </div> -->
 
   <!-- <div class="page-content">
     <div class="vertical-tab" *ngFor="let tab of tabs; let i = index">

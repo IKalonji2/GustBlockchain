@@ -1,3 +1,8 @@
 <div #editor>
   {{code}}
 </div>
+<button (click)="runCode()" style="margin-top: 10px;">Run Code</button>
+<div>
+  <h3>Output:</h3>
+  <pre>{{ output }}</pre>
+</div>

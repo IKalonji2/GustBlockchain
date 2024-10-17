@@ -1,7 +1,5 @@
 .dev-content {
-  overflow-y: scroll;
-  /* scrollbar-width: 2.5px;
-  scrollbar-color: black; */
-  height: 17rem;
-  padding: 10px;
+  /* height: calc(100vh - 9rem); */
+  width: 75%;
+  padding: 15px;
 }

@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
 export class DeveloperComponent {
   tabs = [
     { title: 'Gustavo Smart Contracts', content: 'about Gustavo lang and smart contracts' },
-    { title: 'Deploy your first Contract', content: 'Deploying contracts' },
-    { title: 'Interact with Your Contract', content: 'in Web Terminal' }
+    { title: 'Deploy Your First Contract', content: 'Deploying contracts' },
+    { title: 'Write Your Contract', content: 'in Web Terminal' }
   ];
 
   selectedTab: number = 0;

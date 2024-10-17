@@ -1,6 +1,8 @@
 nav {
+  background-color: #fffdf8;
+  height: 3.75rem;
   width: 100%;
-  height: 3.5rem;
+
   color: black;
 
   display: flex;
@@ -8,9 +10,7 @@ nav {
   align-items: center;
   justify-content: flex-end;
 
-
 }
-
 ul {
   list-style-type: none;
   margin: 0;
@@ -22,38 +22,30 @@ nav li {
   display: inline;
   /* padding: 5px; */
 }
-
 nav a {
   text-decoration: none;
   color: #333;
   padding: 10px 10px;
 }
-
 .line {
   border: solid 4px black;
   border-radius: 5px;
   position: relative;
-  /* left: 2%; */
   width: 100%;
   box-shadow: 3px 3px #ccc;
+  padding: 0 1rem 0 1rem;
+
 }
-/* .app-nav{
-  position: absolute;
-  width: 95%;
-  z-index: 100;
-  top: 0;
-  left: 0;
-} */
 #navbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  /* padding: 1rem; */
   background-color: #fffdf8;
   transition: top 0.1s ease-in-out;
   z-index: 1000;
+  margin-bottom: 1rem;
 }
 
 #navbar.hidden {

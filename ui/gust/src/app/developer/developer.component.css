@@ -1,16 +1,12 @@
 .developer-section {
-  /* scroll-snap-align: start; */
-  height: 100vh;
-  width: 100%;
-  /* overflow: hidden; */
-  /* padding: 2rem;*/
-
   position: relative;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  overflow-x: hidden;
+
 
 }
 .page-content {
@@ -18,9 +14,55 @@
   /* margin-top: 10% */
 }
 .page-title {
-  position: absolute;
-  text-align: center;
+  position: relative;
+  left: 50%;
+  transform: translate(-60%, -40%);
   top: 5%;
+}
+.side-nav {
+  position: fixed;
+  top: 4.5rem;
+  left: 0;
+  width: 15.625rem;
+  height: calc(100vh - 4.5rem);
+  background-color: #f1f1f1;
+  border-right: 5px solid #000000;
+  color: black;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.side-nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.side-nav ul li {
+  padding: 10px 20px;
+}
+
+.side-nav ul li a {
+  color: black;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.side-nav ul li a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+.content {
+  padding: 0px 25px;
+  /* width: 100%; */
+  border-left: none;
+  height: 100vh;
+
+  position: relative;
+  /* top: 0; */
+  left: 15.7rem;
 }
 /* .vertical-tab {
   width: 30%;
@@ -28,14 +70,7 @@
   background-color: #f1f1f1; */
   /* height: 600px; */
 /* } */
-.content {
-  padding: 0px 12px;
-  border: 1px solid #ccc;
-  width: 100%;
-  border-left: none;
-  height: 18.75rem;
-}
-
+/*
 .vertical-tab button {
   display: block;
   background-color: #f1f1f1;
@@ -71,4 +106,4 @@
 
 details {
   padding: 10px;
-}
+} */

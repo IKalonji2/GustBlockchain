@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
 
 export class RegisterComponent implements OnInit {
   currentStep: number = 1;
-  emailOrphone_number: string = '';
+  phone_number: string = '';
   otp: string = '';
-  isEmail: boolean = true;
+  // isEmail: boolean = true;
 
-  mnemonic: string[] = [];
-  shuffledMnemonic: string[] = [];
-  userSelectedMnemonic: string[] = [];
+  // mnemonic: string[] = [];
+  // shuffledMnemonic: string[] = [];
+  // userSelectedMnemonic: string[] = [];
 
   constructor(
     private authService: AuthService,
@@ -30,9 +30,10 @@ export class RegisterComponent implements OnInit {
   nextStep(registerForm: NgForm) {
     if (registerForm.valid) {
       if (this.currentStep === 1) {
-        const payload = this.isEmail
-          ? { email: this.emailOrphone_number }
-          : { phone_number: this.emailOrphone_number };
+        // const payload = this.isEmail
+        //   ? { email: this.emailOrphone_number }
+        //   : { phone_number: this.emailOrphone_number };
+        const payload = {phone_number:this.phone_number}
 
         this.authService.createUser(payload).subscribe(
           (response) => {
@@ -43,26 +44,6 @@ export class RegisterComponent implements OnInit {
             console.error('Failed to send OTP:', error);
           }
         );
-      } else if (this.currentStep === 2) {
-        const payload = {
-          otp: this.otp,
-          ...(this.isEmail ? { email: this.emailOrphone_number } : { phone_number: this.emailOrphone_number })
-        };
-        this.authService.processOpt(payload).subscribe(
-          (response) => {
-            console.log('OTP verification successful:', response);
-            this.currentStep++;
-          },
-          (error) => {
-            console.error('OTP verification failed:', error);
-          }
-
-        );
-        this.generatedMnemonic();
-      }
-      else if(this.currentStep === 3) {
-        this.shuffleMnemonic();
-        console.log("can you see me?")
       }
     }
   }
@@ -70,54 +51,21 @@ export class RegisterComponent implements OnInit {
   prevStep() {
     this.currentStep--;
   }
-  generatedMnemonic() {
-    this.authService.getWalletMnemonic().subscribe(
-      (generatedMnemonic:any) => {
 
-        console.log("current step is 3 and I want to see : ",generatedMnemonic.mnemonic);
-
-        this.mnemonic = generatedMnemonic.mnemonic.split(' ');
-        this.currentStep++;
-      },
-      (error) => {
-        console.error('Failed to get mnemonic:', error);
-      }
-    );
-  }
-  shuffleMnemonic() {
-    this.authService.getShuffledMnemonic().subscribe(
-      (shuffledMnemonic:any) => {
-        this.shuffledMnemonic = shuffledMnemonic.shuffledMnemonic.split(' ');
-        console.log('Shuffled mnemonic received:', this.shuffledMnemonic);
-        this.currentStep++;
-      },
-      (error) => {
-        console.error('Failed to get shuffled mnemonic:', error);
-      }
-    );
-  }
-  selectWord(word: string) {
-    if (!this.userSelectedMnemonic.includes(word)) {
-      this.userSelectedMnemonic.push(word);
-    }
-  }
-  resetArrangement() {
-    this.userSelectedMnemonic = [];
-  }
   onSubmit() {
-    this.currentStep = 4;
-    if (this.userSelectedMnemonic.length === 12) {
-      if (this.userSelectedMnemonic.join(' ') === this.mnemonic.join(' ')) {
-        let mnemonicBody = {
-          "mnemonic" : this.userSelectedMnemonic
-        }
-        alert('Mnemonic is correct');
-        this.authService.verifyMnemonic(mnemonicBody);
-        this.router.navigate(['/developer']);
-      } else {
-        alert('Mnemonic order is incorrect');
+    this.currentStep = 2;
+    const payload = {phone_number:this.phone_number}
+
+    this.authService.processOpt(payload).subscribe(
+      (response) => {
+        console.log('OTP verification successful:', response);
+        this.currentStep++;
+      },
+      (error) => {
+        console.error('OTP verification failed:', error);
       }
-    }
+
+    );
   }
 
   setActiveTab(tabNumber: number): void {

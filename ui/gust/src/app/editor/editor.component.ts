@@ -10,6 +10,7 @@ declare var ace: any;
 export class EditorComponent implements AfterViewInit{
 
   @ViewChild('editor') private editor!:ElementRef;
+  output: string = '';
   code: string = `/* Hello Awesome Dev \nInteract with your smart contract code */ \nconsole.log('Hello, World!');`;
 
   constructor() {}
@@ -25,5 +26,24 @@ export class EditorComponent implements AfterViewInit{
     });
     aceEditor.resize();
   }
+  runCode(): void {
+    const aceEditor = ace.edit(this.editor.nativeElement);
+    const solidityCode = aceEditor.getValue();
 
+    const input = {
+      language: 'Solidity',
+      sources: {
+        'TestContract.sol': {
+          content: solidityCode
+        }
+      },
+      settings: {
+        outputSelection: {
+          '*': {
+            '*': ['*']
+          }
+        }
+      }
+    };
+  }
 }
