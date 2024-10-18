@@ -1,6 +1,7 @@
 import { OTPModel } from '../model/otp_model';
 import { generateOtp, verifyOtp } from '../utils/otp_util';
 import { createWhatsAppClient, sendOtpWhatsApp } from '../utils/whatsapp_util';
+import bcrypt from 'bcrypt';
 
 createWhatsAppClient().catch(console.error);
 
@@ -21,11 +22,15 @@ export class OTPService {
         console.log('Stored OTP:', storedOtp.otp);
         console.log('Input OTP:', otp);
 
+        const isOTPValid = await bcrypt.compare(otp, storedOtp.otp);
+        console.log(`OTP valid: ${isOTPValid}`);
+
         if (!storedOtp) return false;    
         if (Date.now() > storedOtp.expiry) {
             return false; 
         }    
-        return otp.trim() === storedOtp.otp.trim();
+        // return otp.trim() === storedOtp.otp.trim();
+        return isOTPValid;
     }
     
 

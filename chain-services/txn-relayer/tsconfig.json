@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    // "target": "ES6",
-    "target": "es2020",
-    // "module": "commonjs",
-    "module": "es2022",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "moduleResolution": "node",
-    // "typeRoots": ["./node_modules/@types", "./src"]
-  }
+      "target": "es6",                         
+      "module": "commonjs",    
+      "outDir": "./dist",
+      "rootDir": "./src",            
+      "strict": true,                          
+      "esModuleInterop": true,                 
+      "skipLibCheck": true,                    
+      "forceConsistentCasingInFileNames": true,
+      "allowSyntheticDefaultImports": true,
+      "typeRoots": ["./node_modules/@types", "./types"]
+
+  },
+  "include": ["src/**/*"],                  
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

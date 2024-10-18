@@ -1,4 +1,5 @@
 import { connectDb } from "../database";
+import bcrypt from 'bcrypt';
 
 export class OTPModel {
     db:any;
@@ -22,9 +23,10 @@ export class OTPModel {
             `);
     }
     async createOTP(phone_number:string, otp: string,expiry:number) {
+        let hashedOtp = await bcrypt.hash(otp, 10);
         return this.db.run(
             `INSERT INTO otps (phone_number, otp, expiry) VALUES (?, ?, ?)`,
-            [phone_number, otp, expiry]
+            [phone_number, hashedOtp, expiry]
         );
     }
 

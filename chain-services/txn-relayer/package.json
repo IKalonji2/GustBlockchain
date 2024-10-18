@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/txn_server.ts",
-    "start": "ts-node src/txn_server.ts"
+    "dev": "nodemon src/relayer.ts",
+    "start": "ts-node src/relayer.ts"
   },
   "keywords": [],
   "author": "",

@@ -11,12 +11,12 @@ const app = express();
 app.use(bodyParser.json());
 
 app.post('/relay-transaction', authenticateJwt, async (req, res) => {
-  const { chainSpec, senderSeed, recipientAddress, amount } = req.body;
+  const { chainSpec, recipientAddress, amount } = req.body;
 
   try {
     const client = await createSmoldotClient(chainSpec);
 
-    const txHash = await sendTransaction(client, senderSeed, recipientAddress, amount);
+    const txHash = await sendTransaction(client, recipientAddress, amount);
 
     res.json({ message: 'Transaction relayed successfully', txHash });
   } catch (error) {
