@@ -11,15 +11,15 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use('/api', userRoutes);
-
-app.use(helmet());
 app.use(cors({
     origin: 'http://localhost:4200',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
-  }));
+}));
 
-  app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.use('/api', userRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });

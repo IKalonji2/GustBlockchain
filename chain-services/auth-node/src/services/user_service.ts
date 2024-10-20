@@ -9,12 +9,12 @@ export class UserService {
         const hashedPhone = hashPhoneNumber(phone_number);
         const jwt = generateJwt(hashedPhone.hashedPhoneNumber);
 
-        return this.userModel.createUser(hashedPhone.hashedPhoneNumber, hashedPhone.salt, jwt);
+        return this.userModel.createUser(phone_number,hashedPhone.hashedPhoneNumber, hashedPhone.salt, jwt);
     }
 
     async findUserByPhoneNumber(phone_number: string) {
-        const hashedPhone = hashPhoneNumber(phone_number);
-        return this.userModel.findUserByPhoneNumber(hashedPhone.hashedPhoneNumber);
+        // const hashedPhone = hashPhoneNumber(phone_number);
+        return this.userModel.findUserByPhoneNumber(phone_number);
     }
 
     generateJwt(phone_number: string) {

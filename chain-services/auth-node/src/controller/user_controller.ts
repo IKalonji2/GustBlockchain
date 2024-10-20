@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
+import crypto from 'crypto';
+
 import { UserService } from '../services/user_service';
 import { OTPService } from '../services/otp_service';
 import { hashPhoneNumber } from '../utils/encrypter';
 import { generateOtp } from '../utils/otp_util';
 import { generateJwt } from '../utils/jwt_util';
 import { createWhatsAppClient, sendOtpWhatsApp } from '../utils/whatsapp_util';
-import { storeOtp } from './otp_controller';
+import { clearStoredOtp, storeOtp } from './otp_controller';
 import { UserModel } from '../model/user_model';
 
 const userService = new UserService();
@@ -38,6 +40,7 @@ const userModel = new UserModel();
 //     }
 // };
 export const userSignUp = async (req: Request, res: Response): Promise<any> => {
+    console.log('Sign-up route hit');
     const { phone_number } = req.body;
 
     if (!phone_number) {
@@ -54,6 +57,7 @@ export const userSignUp = async (req: Request, res: Response): Promise<any> => {
 };
 
 export const userLogin = async (req: Request, res: Response): Promise<any>  => {
+    console.log('Login route hit');
     const { phone_number } = req.body;
 
     if (!phone_number) {
@@ -62,18 +66,34 @@ export const userLogin = async (req: Request, res: Response): Promise<any>  => {
 
     try {
         const user = await userService.findUserByPhoneNumber(phone_number);
+        console.log("this is user :",user);
+
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
+        }
+
+        const { salt, hash_phone_number: storedHashedPhone } = user;
+
+        console.log("what do you have? :",storedHashedPhone);
+
+
+        const hashedPhoneNumber = crypto.pbkdf2Sync(phone_number, salt, 1000, 64, 'sha512').toString('hex');
+        console.log(hashedPhoneNumber);
+
+        if (hashedPhoneNumber !== storedHashedPhone) {
+            return res.status(401).json({ message: 'Invalid phone number.' });
         }
 
         const otp = await otpService.sendOtp(phone_number);
         return res.status(200).json({ message: 'OTP sent to WhatsApp.' });
     } catch (error) {
+        console.error("Login failed:", error);
         return res.status(500).json({ message: 'Login failed', error });
     }
 };
 
 export const verifyOtp = async (req: Request, res: Response): Promise<any>  => {
+    console.log('Verify OTP route hit');
     const { phone_number, otp } = req.body;
 
     if (!phone_number || !otp) {
@@ -95,7 +115,7 @@ export const verifyOtp = async (req: Request, res: Response): Promise<any>  => {
             sameSite: 'strict',  
             maxAge: 3600000    
         });
-
+        await clearStoredOtp(phone_number);
         return res.status(200).json({ message: 'OTP verified successfully.', token });
     } catch (error) {
         return res.status(500).json({ message: 'Failed to verify OTP.', error });

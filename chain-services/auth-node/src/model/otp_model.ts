@@ -34,6 +34,9 @@ export class OTPModel {
         return this.db.get(`SELECT * FROM otps WHERE phone_number = ?`, [phone_number]);
     }
 
+    async clearOtp(phone_number:string) {
+        await this.db.run('DELETE FROM otps WHERE phone_number = ?', [phone_number]);
+    }
 }
 
 

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { UserAuthRequest } from '../model/user-object';
+import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,26 +14,56 @@ export class LoginComponent {
   currentStep: number = 1;
   phone_number: string = '';
   otp: string = '';
-  isEmail: boolean = true;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
   nextStep(loginForm: NgForm) {
     if (loginForm.valid) {
-      // const payload = this.isEmail
-      //   ? { email: this.emailOrphone_number }
-      //   : { phone_number: this.emailOrphone_number };
-      const payload = {phone_number:this.phone_number}
+      let payload: UserAuthRequest;
 
-      this.authService.userLogin(payload).subscribe(
+      if (this.currentStep === 1) {
+        if (!this.phone_number) {
+          console.error('Phone number is required');
+          return;
+        }
+        payload = { phone_number: this.phone_number, otp: '' };
+        this.userService.setUser(this.phone_number);
+      } else if (this.currentStep === 2) {
+        if (!this.otp) {
+          console.error('OTP is required');
+          return;
+        }
+        const savedPhoneNumber = this.userService.getUser();
+        payload = { phone_number: savedPhoneNumber, otp: this.otp };
+      } else {
+        console.error('Invalid step');
+        return;
+      }
+
+      const serviceCall = this.currentStep === 1
+        ? this.authService.userLogin(payload)
+        : this.authService.processOtp(payload);
+
+      serviceCall.subscribe(
         (response) => {
-          console.log('OTP sent successfully:', response);
-          this.currentStep++;
+          console.log('Request successful:', response);
+          if (this.currentStep === 1) {
+            this.currentStep++;
+          } else if (response.success) {
+            console.log('OTP verification successful');
+            // this.router.navigate(['/dashboard']);
+          } else {
+            console.error('OTP verification failed:', response.message);
+          }
         },
         (error) => {
-          console.error('Failed to send OTP:', error);
+          console.error('Request failed:', error);
         }
       );
     }
@@ -42,15 +75,17 @@ export class LoginComponent {
 
   onSubmit(loginForm: NgForm) {
     if (loginForm.valid) {
-      // const payload = {
-      //   otp: this.otp,
-      //   ...(this.isEmail ? { email: this.emailOrphone_number } : { phone_number: this.emailOrphone_number })
-      // };
-      const payload = {phone_number:this.phone_number}
+      const payload: UserAuthRequest = {
+        phone_number: this.userService.getUser(),
+        otp: loginForm.value.otp
+      };
+      console.log(payload);
 
-      this.authService.processOpt(payload).subscribe(
+      this.authService.processOtp(payload).subscribe(
         (response) => {
           console.log('OTP verification successful:', response);
+          // localStorage.setItem('authToken', response.token);
+          // this.router.navigate(['/dashboard']);
         },
         (error) => {
           console.error('OTP verification failed:', error);
@@ -58,8 +93,8 @@ export class LoginComponent {
       );
     }
   }
+
   setActiveTab(tabNumber: number): void {
     this.currentStep = tabNumber;
   }
-
 }

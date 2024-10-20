@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^2.0.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -19,11 +20,12 @@
     "express": "^5.0.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "path-to-regexp": "^8.2.0",
     "speakeasy": "^2.0.0",
-    "venom-bot": "^5.1.0",
-    "bcrypt": "^5.1.1"
+    "venom-bot": "^5.1.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
@@ -33,7 +35,6 @@
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "ts-node": "^10.9.2",
-    "@types/bcrypt": "^5.0.2",
     "typescript": "^5.6.2"
   }
 }

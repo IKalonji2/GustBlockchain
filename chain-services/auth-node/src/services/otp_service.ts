@@ -1,3 +1,4 @@
+import { clearStoredOtp, isOtpExpired } from '../controller/otp_controller';
 import { OTPModel } from '../model/otp_model';
 import { generateOtp, verifyOtp } from '../utils/otp_util';
 import { createWhatsAppClient, sendOtpWhatsApp } from '../utils/whatsapp_util';
@@ -22,6 +23,11 @@ export class OTPService {
         console.log('Stored OTP:', storedOtp.otp);
         console.log('Input OTP:', otp);
 
+        if (await isOtpExpired(storedOtp)) {
+            await clearStoredOtp(phone_number);
+            return false;
+        }
+    
         const isOTPValid = await bcrypt.compare(otp, storedOtp.otp);
         console.log(`OTP valid: ${isOTPValid}`);
 

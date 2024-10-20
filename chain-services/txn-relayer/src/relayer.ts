@@ -1,30 +1,36 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import { createSmoldotClient } from './services/smoldot_service';
-import { sendTransaction } from './services/transaction_service';
-import { authenticateJwt } from './services/auth_service';
+import helmet from 'helmet';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import relayerRoutes from './routes/relayer_routes';
 
 dotenv.config();
 
 const app = express();
+
+app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.post('/relay-transaction', authenticateJwt, async (req, res) => {
-  const { chainSpec, recipientAddress, amount } = req.body;
+app.use(helmet());
+// app.use(cors({
+//     origin: 'http://localhost:4200',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: 'Content-Type,Authorization',
+//     // credentials: true
+// }));
 
-  try {
-    const client = await createSmoldotClient(chainSpec);
+app.use('/api', relayerRoutes);
+app.use(cors());
 
-    const txHash = await sendTransaction(client, recipientAddress, amount);
-
-    res.json({ message: 'Transaction relayed successfully', txHash });
-  } catch (error) {
-    console.error('Error relaying transaction:', error);
-    res.status(500).json({ message: 'Transaction failed', error });
-  }
-});
+// app.use(cors({
+//   origin: 'http://localhost:4200',
+//   methods: 'GET,POST',
+//   allowedHeaders: 'Content-Type,Authorization',
+// }));
 
 app.listen(3001, () => {
   console.log('Transaction relayer API running on port 3001');
 });
+

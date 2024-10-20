@@ -12,6 +12,7 @@ export const authenticateJwt = async(req: Request, res: Response, next: NextFunc
     }
 
     try {
+        console.log("token :",token)
         // const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret');
         // req.user = decoded as JwtPayload ;
         jwt.verify(token, process.env.JWT_SECRET || 'default_secret', (err:any) => {
