@@ -11,14 +11,26 @@ export class EditorComponent implements AfterViewInit{
 
   @ViewChild('editor') private editor!:ElementRef;
   output: string = '';
-  code: string = `/* Hello Awesome Dev \nInteract with your smart contract code */ \nconsole.log('Hello, World!');`;
+  code: string = `
+    Contract ExampleContract accepts 0x123456789abcdef, 0xabcdef123456789:
+    State:
+    int stateVariable1;
+    int stateVariable2;
+
+    initState(int initialValue1, int initialValue2):
+    stateVariable1 = initialValue1;
+    stateVariable2 = initialValue2;
+
+    calculateSum(int a, int b) public:
+    // This function takes two integers and returns their sum.
+    return a + b;`;
 
   constructor() {}
 
   ngAfterViewInit(): void {
     const aceEditor = ace.edit(this.editor.nativeElement);
     aceEditor.setTheme('ace/theme/twilight');
-    aceEditor.session.setMode('ace/mode/javascript');
+    aceEditor.session.setMode('ace/mode/plaintext');
     aceEditor.setOptions({
       fontSize: "14px",
       showLineNumbers: true,

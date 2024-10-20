@@ -122,3 +122,6 @@ button:disabled {
   background-color: #ccc;
   color: #474747;
 }
+input {
+  margin-bottom: 2rem;
+}
