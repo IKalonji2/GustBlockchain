@@ -115,14 +115,8 @@ export class RegisterComponent implements OnInit {
         (error: any) => {
           if (error.status === 400) {
             this.notificationService.showNotification(error.error.message, 'warning');
-            setTimeout(() => {
-              this.notificationService.clearNotification('', '');
-            }, 5000);
           } else {
             this.notificationService.showNotification(error.error.message, 'error');
-            setTimeout(() => {
-              this.notificationService.clearNotification('', '');
-            }, 5000);
           }
         }
       );
