@@ -17,6 +17,7 @@ import { ChainComponent } from './services/chain/chain.component';
 import { LoginComponent } from './login/login.component';
 import { EditorComponent } from './editor/editor.component';
 import { DocsDisplayComponent } from './docs-display/docs-display.component';
+import { MsgNotificationComponent } from './msg-notification/msg-notification.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { DocsDisplayComponent } from './docs-display/docs-display.component';
     ChainComponent,
     LoginComponent,
     EditorComponent,
-    DocsDisplayComponent
+    DocsDisplayComponent,
+    MsgNotificationComponent
   ],
   imports: [
     BrowserModule,

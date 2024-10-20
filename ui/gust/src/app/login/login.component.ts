@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { UserAuthRequest } from '../model/user-object';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
@@ -32,40 +34,57 @@ export class LoginComponent {
           console.error('Phone number is required');
           return;
         }
+
+        const storedUser = this.userService.getUser();
+        if (storedUser && storedUser.phone_number === this.phone_number) {
+          console.log('Phone number has not changed, skipping request');
+          this.currentStep++;
+          return;
+        }
+
         payload = { phone_number: this.phone_number, otp: '' };
-        this.userService.setUser(this.phone_number);
+
+        this.userService.setUser({ phone_number: this.phone_number });
+
+        this.authService.userLogin(payload).subscribe(
+          (response) => {
+            console.log('Login request successful:', response);
+            this.currentStep++;
+          },
+          (error) => {
+            console.error('Login request failed:', error);
+          }
+        );
       } else if (this.currentStep === 2) {
         if (!this.otp) {
           console.error('OTP is required');
           return;
         }
-        const savedPhoneNumber = this.userService.getUser();
-        payload = { phone_number: savedPhoneNumber, otp: this.otp };
+
+        const storedUser = this.userService.getUser();
+        if (!storedUser || !storedUser.phone_number) {
+          console.error('Phone number is not available for OTP verification');
+          return;
+        }
+
+        payload = { phone_number: storedUser.phone_number, otp: this.otp };
+
+        this.authService.processOtp(payload).subscribe(
+          (response) => {
+            if (response.success) {
+              console.log('OTP verification successful:', response);
+              this.currentStep++;
+            } else {
+              console.error('OTP verification failed:', response.message);
+            }
+          },
+          (error) => {
+            console.error('OTP request failed:', error);
+          }
+        );
       } else {
         console.error('Invalid step');
-        return;
       }
-
-      const serviceCall = this.currentStep === 1
-        ? this.authService.userLogin(payload)
-        : this.authService.processOtp(payload);
-
-      serviceCall.subscribe(
-        (response) => {
-          console.log('Request successful:', response);
-          if (this.currentStep === 1) {
-            this.currentStep++;
-          } else if (response.success) {
-            console.log('OTP verification successful');
-            // this.router.navigate(['/dashboard']);
-          } else {
-            console.error('OTP verification failed:', response.message);
-          }
-        },
-        (error) => {
-          console.error('Request failed:', error);
-        }
-      );
     }
   }
 
@@ -82,13 +101,27 @@ export class LoginComponent {
       console.log(payload);
 
       this.authService.processOtp(payload).subscribe(
-        (response) => {
+        (response:any) => {
           console.log('OTP verification successful:', response);
+          this.notificationService.showNotification(response.message, 'success');
           // localStorage.setItem('authToken', response.token);
-          // this.router.navigate(['/dashboard']);
+          this.router.navigate(['/']);
+          setTimeout(() => {
+            this.notificationService.clearNotification('', '');
+          }, 5000);
         },
-        (error) => {
-          console.error('OTP verification failed:', error);
+        (error: any) => {
+          if (error.status === 400) {
+            this.notificationService.showNotification(error.error.message, 'warning');
+            setTimeout(() => {
+              this.notificationService.clearNotification('', '');
+            }, 5000);
+          } else {
+            this.notificationService.showNotification(error.error.message, 'error');
+            setTimeout(() => {
+              this.notificationService.clearNotification('', '');
+            }, 5000);
+          }
         }
       );
     }

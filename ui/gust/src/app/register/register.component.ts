@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserAuthRequest } from '../model/user-object';
+import { NotificationService } from '../services/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit(): void {}
@@ -30,43 +32,66 @@ export class RegisterComponent implements OnInit {
       if (this.currentStep === 1) {
         if (!this.phone_number) {
           console.error('Phone number is required');
+          this.notificationService.showNotification('Phone number is required!', 'error');
           return;
         }
+
+        const storedUser = this.userService.getUser();
+        if (storedUser && storedUser.phone_number === this.phone_number) {
+          console.log('Phone number has not changed, skipping request');
+          this.currentStep++;
+          return;
+        }
+
         payload = { phone_number: this.phone_number, otp: '' };
 
-        this.userService.setUser(this.phone_number);
+        this.userService.setUser({ phone_number: this.phone_number });
+
+        this.authService.createUser(payload).subscribe(
+          (response) => {
+            console.log('Sign-up request successful:', response);
+            this.notificationService.showNotification('Sign-up request successful:', 'success');
+            this.currentStep++;
+          },
+          (error) => {
+            console.error('Sign-up request failed:', error);
+            this.notificationService.showNotification('Sign-up request failed:', 'error');
+          }
+        );
       } else if (this.currentStep === 2) {
         if (!this.otp) {
           console.error('OTP is required');
+          this.notificationService.showNotification('OTP is required', 'warning');
           return;
         }
-        const savedPhoneNumber = this.userService.getUser();
-        payload = { phone_number: savedPhoneNumber, otp: this.otp };
+
+        const storedUser = this.userService.getUser();
+        if (!storedUser || !storedUser.phone_number) {
+          console.error('Phone number is not available for OTP verification');
+          this.notificationService.showNotification('Phone number is not available for OTP verification', 'error');
+          return;
+        }
+
+        payload = { phone_number: storedUser.phone_number, otp: this.otp };
+
+        this.authService.processOtp(payload).subscribe(
+          (response) => {
+            if (response.success) {
+              console.log('OTP verification successful:', response);
+              this.notificationService.showNotification(response.message, 'success');
+              this.currentStep++;
+            } else {
+              console.error('OTP verification failed:', response.message);
+              this.notificationService.showNotification(response.message, 'error');
+            }
+          },
+          (error) => {
+            console.error('OTP request failed:', error);
+          }
+        );
       } else {
         console.error('Invalid step');
-        return;
       }
-
-      const serviceCall = this.currentStep === 1
-        ? this.authService.createUser(payload)
-        : this.authService.processOtp(payload);
-
-      serviceCall.subscribe(
-        (response) => {
-          console.log('Request successful:', response);
-
-          if (this.currentStep === 2 && response.success) {
-            this.currentStep++;
-          } else if (this.currentStep === 1) {
-            this.currentStep++;
-          } else {
-            console.error('OTP verification failed:', response.message);
-          }
-        },
-        (error) => {
-          console.error('Request failed:', error);
-        }
-      );
     }
   }
 
@@ -77,19 +102,28 @@ export class RegisterComponent implements OnInit {
   onSubmit(registerForm: NgForm) {
     if (registerForm.valid) {
       const payload: UserAuthRequest = {
-        phone_number: this.userService.getUser(),
+        phone_number: this.userService.getUser().phone_number,
         otp: registerForm.value.otp
       };
-      console.log(payload);
-
       this.authService.processOtp(payload).subscribe(
-        (response) => {
+        (response:any) => {
           console.log('OTP verification successful:', response);
+          this.notificationService.showNotification(response.message, 'success');
           // localStorage.setItem('authToken', response.token);
-          // this.router.navigate(['/dashboard']);
+          this.router.navigate(['/']);
         },
-        (error) => {
-          console.error('OTP verification failed:', error);
+        (error: any) => {
+          if (error.status === 400) {
+            this.notificationService.showNotification(error.error.message, 'warning');
+            setTimeout(() => {
+              this.notificationService.clearNotification('', '');
+            }, 5000);
+          } else {
+            this.notificationService.showNotification(error.error.message, 'error');
+            setTimeout(() => {
+              this.notificationService.clearNotification('', '');
+            }, 5000);
+          }
         }
       );
     }

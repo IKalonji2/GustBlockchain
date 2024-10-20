@@ -3,44 +3,12 @@ import crypto from 'crypto';
 
 import { UserService } from '../services/user_service';
 import { OTPService } from '../services/otp_service';
-import { hashPhoneNumber } from '../utils/encrypter';
-import { generateOtp } from '../utils/otp_util';
-import { generateJwt } from '../utils/jwt_util';
-import { createWhatsAppClient, sendOtpWhatsApp } from '../utils/whatsapp_util';
-import { clearStoredOtp, storeOtp } from './otp_controller';
-import { UserModel } from '../model/user_model';
+import { clearStoredOtp } from './otp_controller';
 
 const userService = new UserService();
 const otpService = new OTPService();
-const userModel = new UserModel();
 
-// createWhatsAppClient().catch(console.error);
-
-// export const userSignUp = async (req: Request, res: Response): Promise<any> => {
-//     const { phone_number } = req.body;
-    
-//     if (!phone_number) {
-//         return res.status(400).json({ message: 'Phone number is required.' });
-//     }
-
-//     const hashed = hashPhoneNumber(phone_number);
-//     console.log(hashed);
-
-//     const otp = generateOtp();
-//     await storeOtp(phone_number, otp);
-//     const jwt = generateJwt(hashed.hashedPhoneNumber);
-//     try {
-//         const result = await userModel.createUser(hashed.hashedPhoneNumber, hashed.salt, jwt);
-//         console.log(hashed.hashedPhoneNumber, hashed.salt)
-//         await sendOtpWhatsApp(phone_number, otp);
-//         res.status(201).json({ id: result.lastID, message: 'OTP sent to your WhatsApp.' });
-//     } catch (error) {
-//         console.error("Error signing up user:", error);
-//         res.status(500).json({ message: 'Error signing up user', error });
-//     }
-// };
 export const userSignUp = async (req: Request, res: Response): Promise<any> => {
-    console.log('Sign-up route hit');
     const { phone_number } = req.body;
 
     if (!phone_number) {
@@ -48,6 +16,11 @@ export const userSignUp = async (req: Request, res: Response): Promise<any> => {
     }
 
     try {
+        const existing_user = await userService.findUserByPhoneNumber(phone_number);
+        if (existing_user) {
+            return res.status(400).json({ message: 'Phone number already registered.' });
+        }
+        
         const user = await userService.createUser(phone_number);
         const otp = await otpService.sendOtp(phone_number);        
         return res.status(201).json({ userId: user.id, message: 'OTP sent to WhatsApp.' });
@@ -66,19 +39,13 @@ export const userLogin = async (req: Request, res: Response): Promise<any>  => {
 
     try {
         const user = await userService.findUserByPhoneNumber(phone_number);
-        console.log("this is user :",user);
 
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
 
         const { salt, hash_phone_number: storedHashedPhone } = user;
-
-        console.log("what do you have? :",storedHashedPhone);
-
-
         const hashedPhoneNumber = crypto.pbkdf2Sync(phone_number, salt, 1000, 64, 'sha512').toString('hex');
-        console.log(hashedPhoneNumber);
 
         if (hashedPhoneNumber !== storedHashedPhone) {
             return res.status(401).json({ message: 'Invalid phone number.' });
