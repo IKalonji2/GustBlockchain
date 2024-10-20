@@ -64,6 +64,13 @@
   /* top: 0; */
   left: 15.7rem;
 }
+
+pre {
+  border: solid 1px #ccc;
+  background-color: #141414;
+  color: white;
+  border-radius: 5px;
+}
 /* .vertical-tab {
   width: 30%;
   border-right: 5px solid #000000;

@@ -10,7 +10,48 @@
       <app-docs-display></app-docs-display>
     </ng-container>
     <ng-container *ngIf="selectedTab === 1">
-      {{ tabs[1].content }}
+      <div class="tutorial-wrap">
+        <h2>Create and Deploy your First Smart Contract</h2>
+        <h4>Step 1: You need a Gustavo Wallet</h4>
+        <p>
+          If you are completely new to Gustavo and you have not interacted with this platform, <br>
+          simply head to the top navigation bar. <br>
+          Click on Register <br> <br>
+          <img width="60%" src="../../assets/gust-tut.png" alt="Register">
+        </p>
+      </div>
+      <div class="tutorial-wrap">
+        <p>
+          If you have a Wallet the simply click on sign up at the bottom of the sign up form. <br> <br>
+          <img width="20%" height="20%" src="../../assets/reg-form.png" alt="Login">
+        </p>
+      </div>
+      <div class="tutorial-wrap">
+        <p>
+          Verify with the OTP that was sent to your whatsapp number, and you are all set. <br> <br>
+          <img width="20%" height="20%" src="../../assets/verify.png" alt="Verify">
+        </p>
+      </div>
+      <h4>Step 2: You need to install Gustavo package</h4>
+      <h4>Step 3: Next we start with drafting a simple smart contract</h4>
+      <p>
+        You might be asking yourself, when the heck are we going to write code?? Well, here we are, on Step 3 😄
+
+        Open up the hello-world project in your favorite editor (we like VSCode). Smart contracts are written in a language called Solidity which is what we will use to write our HelloWorld.gus smart contract.‌
+
+        1. Navigate to the “contracts” folder and create a new file called HelloWorld.gus
+
+        2. Below is a sample Hello World smart contract from the Ethereum Foundation that we will be using for this tutorial. Copy and paste in the contents below into your HelloWorld.gus file, and be sure to read the comments to understand what this contract does:
+
+        <br> <br>
+
+      </p>
+      <pre>
+        <code>
+          {{ smartContractCode }}
+        </code>
+      </pre>
+      <h4>Step 4: Now your contract is ready to be deployed</h4>
     </ng-container>
     <ng-container *ngIf="selectedTab === 2">
       <app-editor></app-editor>
