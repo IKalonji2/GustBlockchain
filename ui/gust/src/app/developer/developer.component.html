@@ -6,6 +6,7 @@
   </nav>
   <div class="content">
     <div class="page-title">BuildON Gust;</div>
+    <br>
     <ng-container *ngIf="selectedTab === 0">
       <app-docs-display></app-docs-display>
     </ng-container>
@@ -74,52 +75,33 @@
         and make sure the value is also specified.
       </p>
       <label for="recipient">Recipient</label> <br>
-      <input type="text" id="recipient" name="recipient" placeholder="recipient address"> <br>
+      <input type="text" id="recipient" name="recipient" placeholder="WhatsApp number" [(ngModel)]="recipient_address" required> <br>
       <label for="amount">Amount</label> <br>
-      <input type="number" id="amount" name="amount" placeholder="amount"> <br> <br>
+      <input type="number" id="amount" name="amount" placeholder="amount" [(ngModel)]="amount" required> <br>
       <p>
         Simply click the button below and Run the code.
       </p>
-      <button (click)="runDeployment()">Run Code</button>
-      <pre *ngIf="isDeploy">
+      <!-- <button (click)="runDeployment()">Run Code</button> -->
+      <div class="btn-wrapper">
+        <button *ngIf="!isVerified" (click)="openVerification()">Start</button>
+        <button *ngIf="isVerified" (click)="runDeployment()">Run</button>
+      </div>
+      <!-- <pre *ngIf="isDeploy">
         <code>
           {{ deploymentLog }}
         </code>
+      </pre> -->
+      <pre *ngIf="isDeploy">
+        <code [innerHTML]="deploymentLog"></code>
       </pre>
     </ng-container>
     <ng-container *ngIf="selectedTab === 2">
       <app-editor></app-editor>
     </ng-container>
   </div>
-  <!-- <div class="page-content">
-    <div class="vertical-tab">
-      <button *ngFor="let tab of tabs; let i = index" (click)="selectTab(i)">
-        {{ tab.title }}
-      </button>
-    </div> -->
-
-  <!-- <div class="page-content">
-    <div class="vertical-tab" *ngFor="let tab of tabs; let i = index">
-      <button>
-        Gustavo Smart Contracts
-      </button>
-      <button>
-        Deploy your first Contract
-      </button>
-      <button>
-        Interact with Your Contract
-      </button>
-    </div>
-    <div class="content">
-      <div class="">
-
-      </div>
-      <div class="">
-
-      </div>
-      <div class="">
-
-      </div>
-    </div>
-  </div> -->
+  <app-verification-overlay
+  [isVisible]="showOverlay"
+  (verificationComplete)="handleVerification($event)"
+  (onClose)="closeVerification()">
+</app-verification-overlay>
 </section>

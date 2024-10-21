@@ -19,3 +19,21 @@ button {
   padding: 15px;
   width: 100px;
 }
+.ide-out pre {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.green-text {
+  color: green;
+}
+.red-text {
+  color: red;
+}

@@ -12,20 +12,20 @@ export const userSignUp = async (req: Request, res: Response): Promise<any> => {
     const { phone_number } = req.body;
 
     if (!phone_number) {
-        return res.status(400).json({ message: 'Phone number is required.' });
+        return res.status(400).json({ success: false ,message: 'Phone number is required.' });
     }
 
     try {
         const existing_user = await userService.findUserByPhoneNumber(phone_number);
         if (existing_user) {
-            return res.status(400).json({ message: 'Phone number already registered.' });
+            return res.status(400).json({ success: false ,message: 'Phone number already registered.' });
         }
         
         const user = await userService.createUser(phone_number);
         const otp = await otpService.sendOtp(phone_number);        
-        return res.status(201).json({ userId: user.id, message: 'OTP sent to WhatsApp.' });
+        return res.status(201).json({ success: true ,userId: user.id, message: 'OTP sent to WhatsApp.' });
     } catch (error) {
-        return res.status(500).json({ message: 'Error signing up user', error });
+        return res.status(500).json({ success: false ,message: 'Error signing up user', error });
     }
 };
 
@@ -34,28 +34,28 @@ export const userLogin = async (req: Request, res: Response): Promise<any>  => {
     const { phone_number } = req.body;
 
     if (!phone_number) {
-        return res.status(400).json({ message: 'Phone number is required.' });
+        return res.status(400).json({ success: false ,message: 'Phone number is required.' });
     }
 
     try {
         const user = await userService.findUserByPhoneNumber(phone_number);
 
         if (!user) {
-            return res.status(404).json({ message: 'User not found.' });
+            return res.status(404).json({ success: false , message: 'User not found.' });
         }
 
         const { salt, hash_phone_number: storedHashedPhone } = user;
         const hashedPhoneNumber = crypto.pbkdf2Sync(phone_number, salt, 1000, 64, 'sha512').toString('hex');
 
         if (hashedPhoneNumber !== storedHashedPhone) {
-            return res.status(401).json({ message: 'Invalid phone number.' });
+            return res.status(401).json({ success: false , message: 'Invalid phone number.' });
         }
 
         const otp = await otpService.sendOtp(phone_number);
-        return res.status(200).json({ message: 'OTP sent to WhatsApp.' });
+        return res.status(200).json({ success: true ,message: 'OTP sent to WhatsApp.' });
     } catch (error) {
         console.error("Login failed:", error);
-        return res.status(500).json({ message: 'Login failed', error });
+        return res.status(500).json({ success: false ,message: 'Login failed', error });
     }
 };
 
@@ -64,14 +64,14 @@ export const verifyOtp = async (req: Request, res: Response): Promise<any>  => {
     const { phone_number, otp } = req.body;
 
     if (!phone_number || !otp) {
-        return res.status(400).json({ message: 'Phone number and OTP are required.' });
+        return res.status(400).json({ success: false , message: 'Phone number and OTP are required.' });
     }
 
     try {
         const isValidOtp = await otpService.verifyOtp(phone_number, otp);
         console.log(isValidOtp);
         if (!isValidOtp) {
-            return res.status(400).json({ message: 'Invalid OTP.' });
+            return res.status(400).json({ success: false ,message: 'Invalid OTP.' });
         }
 
         const token = userService.generateJwt(phone_number);
@@ -83,8 +83,8 @@ export const verifyOtp = async (req: Request, res: Response): Promise<any>  => {
             maxAge: 3600000    
         });
         await clearStoredOtp(phone_number);
-        return res.status(200).json({ message: 'OTP verified successfully.', token });
+        return res.status(200).json({ success: true , message: 'OTP verified successfully.', token });
     } catch (error) {
-        return res.status(500).json({ message: 'Failed to verify OTP.', error });
+        return res.status(500).json({ success: false , message: 'Failed to verify OTP.', error });
     }
 };

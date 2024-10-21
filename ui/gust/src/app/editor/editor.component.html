@@ -1,8 +1,23 @@
 <div #editor class="ide">
-  {{code}}
+  {{ code }}
 </div>
-<button (click)="runCode()" style="margin-top: 10px; margin-bottom: 10px;">Run Code</button>
+<div style="margin: 10px;">
+  <button *ngIf="!isVerified" (click)="openVerification()">Start</button>
+  <button *ngIf="isVerified" (click)="runCode()">Run</button>
+</div>
 <div class="ide-out" *ngIf="isDeploy">
   <h3>Output:</h3>
-  <pre><code>{{ deploymentLog }}</code></pre>
+  <!-- <pre>
+    <code>
+      {{ deploymentLog }}
+    </code>
+  </pre> -->
+  <pre>
+    <code [innerHTML]="deploymentLog"></code>
+  </pre>
 </div>
+<app-verification-overlay
+  [isVisible]="showOverlay"
+  (verificationComplete)="handleVerification($event)"
+  (onClose)="closeVerification()">
+</app-verification-overlay>

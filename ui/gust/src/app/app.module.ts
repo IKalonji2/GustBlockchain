@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { EditorComponent } from './editor/editor.component';
 import { DocsDisplayComponent } from './docs-display/docs-display.component';
 import { MsgNotificationComponent } from './msg-notification/msg-notification.component';
+import { VerificationOverlayComponent } from './verification-overlay/verification-overlay.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MsgNotificationComponent } from './msg-notification/msg-notification.co
     LoginComponent,
     EditorComponent,
     DocsDisplayComponent,
-    MsgNotificationComponent
+    MsgNotificationComponent,
+    VerificationOverlayComponent
   ],
   imports: [
     BrowserModule,

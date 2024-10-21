@@ -4,7 +4,7 @@ import { authenticateJwt } from '../services/auth_service';
 
 const router = express.Router();
 
-router.post('/relay-transaction',authenticateJwt, signingAndSending);
-router.post('/deploy-contract', authenticateJwt, deployingSmartContract);
+router.post('/relay-transaction', signingAndSending);
+router.post('/deploy-contract', deployingSmartContract);
 
 export default router;
