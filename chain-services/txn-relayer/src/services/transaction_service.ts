@@ -7,6 +7,6 @@ export const sendTransaction = async (client: any, recipientAddress: string, amo
 
   const transfer = client.tx.balances.transfer(recipientAddress, amount);
 
-  const hash = await transfer.signAndSend(relayer);
+  const hash = await transfer.signAndSend(relayer, { nonce: -1 }); 
   return hash;
 };

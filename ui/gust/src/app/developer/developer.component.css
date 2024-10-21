@@ -71,6 +71,20 @@ pre {
   color: white;
   border-radius: 5px;
 }
+
+button {
+  border-radius: 25px;
+  color:#fffdf8;
+  background-color: black;
+  padding: 15px;
+  width: 100px;
+  margin-top: 1.25rem;
+}
+button:disabled {
+  background-color: #ccc;
+  color: #474747;
+
+}
 /* .vertical-tab {
   width: 30%;
   border-right: 5px solid #000000;

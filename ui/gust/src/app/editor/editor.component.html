@@ -2,7 +2,7 @@
   {{code}}
 </div>
 <button (click)="runCode()" style="margin-top: 10px; margin-bottom: 10px;">Run Code</button>
-<div class="ide-out">
+<div class="ide-out" *ngIf="isDeploy">
   <h3>Output:</h3>
-  <pre>{{ output }}</pre>
+  <pre><code>{{ deploymentLog }}</code></pre>
 </div>

@@ -14,21 +14,15 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(helmet());
-// app.use(cors({
-//     origin: 'http://localhost:4200',
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowedHeaders: 'Content-Type,Authorization',
-//     // credentials: true
-// }));
+app.use(cors({
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true
+}));
 
 app.use('/api', relayerRoutes);
-app.use(cors());
 
-// app.use(cors({
-//   origin: 'http://localhost:4200',
-//   methods: 'GET,POST',
-//   allowedHeaders: 'Content-Type,Authorization',
-// }));
 
 app.listen(3001, () => {
   console.log('Transaction relayer API running on port 3001');

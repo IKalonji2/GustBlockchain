@@ -1,4 +1,6 @@
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import * as CryptoJS from 'crypto-js';
+import { TransactionRelayerService } from '../services/relayer.service';
 
 declare var ace: any;
 
@@ -25,37 +27,56 @@ export class EditorComponent implements AfterViewInit{
     // This function takes two integers and returns their sum.
     return a + b;`;
 
-  constructor() {}
+  isDeploy: boolean = false;
+  deploymentLog: string = '';
+  code_hash:string = '';
+  args: string = '';
+
+  constructor(private txnRelayerService: TransactionRelayerService) {}
 
   ngAfterViewInit(): void {
     const aceEditor = ace.edit(this.editor.nativeElement);
     aceEditor.setTheme('ace/theme/twilight');
     aceEditor.session.setMode('ace/mode/plaintext');
     aceEditor.setOptions({
-      fontSize: "14px",
+      fontSize: "0.875rem",
       showLineNumbers: true,
       showGutter: true,
     });
     aceEditor.resize();
   }
   runCode(): void {
-    const aceEditor = ace.edit(this.editor.nativeElement);
-    const solidityCode = aceEditor.getValue();
+    this.isDeploy = true;
+    this.deploymentLog = 'Starting deployment...\n';
 
-    const input = {
-      language: 'Solidity',
-      sources: {
-        'TestContract.sol': {
-          content: solidityCode
-        }
-      },
-      settings: {
-        outputSelection: {
-          '*': {
-            '*': ['*']
+    const aceEditor = ace.edit(this.editor.nativeElement);
+    const contractCode = aceEditor.getValue();
+    this.code_hash = this.generateCodeHash(contractCode);
+
+    let reqBody = {
+      code_hash: this.code_hash, // Match the backend key
+      args: this.args
+    }
+
+    this.txnRelayerService.deploy(reqBody)
+      .subscribe({
+        next: (response) => {
+          this.deploymentLog += response.message + '\n';
+          if (response.logs) {
+            response.logs.forEach((log: string) => {
+              this.deploymentLog += log + '\n';
+            });
           }
+        },
+        error: (err) => {
+          this.deploymentLog += 'Error occurred during deployment: ' +'\n' +err.message + '\n';
+        },
+        complete: () => {
+          this.deploymentLog += 'Deployment process completed.\n';
         }
-      }
-    };
+      });
+  }
+  generateCodeHash(contractCode: string): string {
+    return CryptoJS.SHA256(contractCode).toString(CryptoJS.enc.Hex);
   }
 }

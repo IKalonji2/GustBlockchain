@@ -1,3 +1,4 @@
 export const environment = {
-  API_URL: "http://localhost:3000"
+  AUTH_API_URL: "http://localhost:3000",
+  TXN_API_URL :"http://localhost:3001"
 };

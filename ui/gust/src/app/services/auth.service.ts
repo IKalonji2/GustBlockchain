@@ -19,7 +19,7 @@ interface OtpResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private URL: string = environment.API_URL;
+  private URL: string = environment.AUTH_API_URL;
 
   constructor(private http: HttpClient) {}
 

@@ -95,10 +95,9 @@ export class LoginComponent {
   onSubmit(loginForm: NgForm) {
     if (loginForm.valid) {
       const payload: UserAuthRequest = {
-        phone_number: this.userService.getUser(),
+        phone_number: this.userService.getUser().phone_number,
         otp: loginForm.value.otp
       };
-      console.log(payload);
 
       this.authService.processOtp(payload).subscribe(
         (response:any) => {
@@ -106,21 +105,12 @@ export class LoginComponent {
           this.notificationService.showNotification(response.message, 'success');
           // localStorage.setItem('authToken', response.token);
           this.router.navigate(['/']);
-          setTimeout(() => {
-            this.notificationService.clearNotification('', '');
-          }, 5000);
         },
         (error: any) => {
           if (error.status === 400) {
             this.notificationService.showNotification(error.error.message, 'warning');
-            setTimeout(() => {
-              this.notificationService.clearNotification('', '');
-            }, 5000);
           } else {
             this.notificationService.showNotification(error.error.message, 'error');
-            setTimeout(() => {
-              this.notificationService.clearNotification('', '');
-            }, 5000);
           }
         }
       );
