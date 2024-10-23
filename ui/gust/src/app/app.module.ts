@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AceModule } from 'ngx-ace-wrapper';
+import {HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +14,11 @@ import { NetworkComponent } from './network/network.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthComponent } from './services/auth/auth.component';
 import { ChainComponent } from './services/chain/chain.component';
+import { LoginComponent } from './login/login.component';
+import { EditorComponent } from './editor/editor.component';
+import { DocsDisplayComponent } from './docs-display/docs-display.component';
+import { MsgNotificationComponent } from './msg-notification/msg-notification.component';
+import { VerificationOverlayComponent } from './verification-overlay/verification-overlay.component';
 
 @NgModule({
   declarations: [
@@ -22,11 +30,19 @@ import { ChainComponent } from './services/chain/chain.component';
     NetworkComponent,
     RegisterComponent,
     AuthComponent,
-    ChainComponent
+    ChainComponent,
+    LoginComponent,
+    EditorComponent,
+    DocsDisplayComponent,
+    MsgNotificationComponent,
+    VerificationOverlayComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AceModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

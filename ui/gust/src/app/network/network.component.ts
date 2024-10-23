@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+
+declare const mermaid: any;
 
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
-  styleUrls: ['./network.component.css']
+  styleUrls: ['./network.component.css'],
 })
-export class NetworkComponent {
-
+export class NetworkComponent implements AfterViewInit {
+  ngAfterViewInit(): void {
+    mermaid.initialize({ startOnLoad: true });
+    mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+  }
 }
